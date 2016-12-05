@@ -1,16 +1,16 @@
 ﻿namespace LambdaCalculus.Test
 
 open LambdaCalculus
-open Microsoft.VisualStudio.TestTools.UnitTesting
+open NUnit.Framework
 
-[<TestClass>]
+[<TestFixture>]
 type TestBool () =
 
-    [<TestMethod>]
+    [<Test>]
     member __.``true <> false`` () =
         Assert.AreNotEqual(Bool.trueT, Bool.falseT)
 
-    [<TestMethod>]
+    [<Test>]
     member __.``and laws hold`` () =
         let combinations =
             [
@@ -22,11 +22,11 @@ type TestBool () =
 
         let testCombination (b1, b2, expected) =
             let actual = apps [ Bool.andT ; b1 ; b2 ] |> Eval.eval
-            Assert.AreEqual<_>(expected, actual)
+            Assert.AreEqual(expected, actual)
 
         combinations |> Seq.iter testCombination
 
-    [<TestMethod>]
+    [<Test>]
     member __.``or laws hold`` () =
         let combinations =
             [
@@ -38,14 +38,14 @@ type TestBool () =
 
         let testCombination (b1, b2, expected) =
             let actual = apps [ Bool.orT ; b1 ; b2 ] |> Eval.eval
-            Assert.AreEqual<_>(expected, actual)
+            Assert.AreEqual(expected, actual)
 
         combinations |> Seq.iter testCombination
-    [<TestMethod>]
+    [<Test>]
     member __.``not laws hold`` () =
 
         let notTrue = App(Bool.notT, Bool.trueT) |> Eval.eval
-        Assert.AreEqual<_>(Bool.falseT, notTrue)
+        Assert.AreEqual(Bool.falseT, notTrue)
 
         let notFalse = App(Bool.notT, Bool.falseT) |> Eval.eval
-        Assert.AreEqual<_>(Bool.trueT, notFalse)
+        Assert.AreEqual(Bool.trueT, notFalse)
