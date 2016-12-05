@@ -62,8 +62,8 @@
     <Compile Include="Functions.fs" />
     <Compile Include="Eval.fs" />
     <Compile Include="Bool.fs" />
-    <Compile Include="Nat.fs" />
     <Compile Include="Pair.fs" />
+    <Compile Include="Nat.fs" />
     <Compile Include="Option.fs" />
     <Compile Include="List.fs" />
     <Compile Include="PrettyPrinter.fs" />

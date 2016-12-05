@@ -37,6 +37,26 @@ type TestNat () =
         Assert.AreEqual(12, result)
 
     [<Test>]
+    member __.``pred zero = zero`` () =
+        let result = (Nat.predT $ Nat.zeroT) |> Eval.eval
+        Assert.AreEqual(Nat.zeroT, result)
+
+    [<Test>]
+    member __.``pred one = zero`` () =
+        let result = (Nat.predT $ Nat.toTerm 1) |> Eval.eval
+        Assert.AreEqual(Nat.zeroT, result)
+
+    [<Test>]
+    member __.``pred two = one`` () =
+        let result = (Nat.predT $ Nat.toTerm 2) |> Eval.eval
+        Assert.AreEqual(Nat.toTerm 1, result)
+
+    [<Test>]
+    member __.``21 - 3 = 18`` () =
+        let result = (Nat.subtractT $ Nat.toTerm 21 $ Nat.toTerm 3) |> Eval.eval
+        Assert.AreEqual(Nat.toTerm 18, result)
+
+    [<Test>]
     member __.``zero is zero`` () =
         let result = (Nat.isZeroT $ Nat.toTerm 0) |> Eval.eval
         Assert.AreEqual(Bool.trueT, result)
