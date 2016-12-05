@@ -10,29 +10,29 @@ module Option =
 
     // What about writing this in the naive way and evaling it?
     /// bindT : 'a option -> ('a -> 'b option) -> 'b option
-    let bindT = lams 2 (apps [ Var 1 ; (lams 2 (Var 1)) ; Var 0 ])
+    let bindT = lams 2 (Var 1 $ (lams 2 (Var 1)) $ Var 0 )
 
     /// returnT : 'a -> 'a option
     let returnT = someT
 
     /// applyT : 'a option -> ('a -> 'b) option -> 'b option
-    let applyT = apps [ Functions.bindToApplyT ; bindT ; returnT ]
+    let applyT = Functions.bindToApplyT $ bindT $ returnT
 
     /// mapT : 'a option -> ('a -> 'b) -> 'b option
-    let mapT = apps [ Functions.applyToMapT ; applyT ; returnT ]
+    let mapT = Functions.applyToMapT $ applyT $ returnT
 
     // Can this be eval'd?
     /// isNoneT : 'a option -> bool
-    let isNoneT = Lam (apps [ Var 0 ; Bool.trueT ; Lam Bool.falseT ])
+    let isNoneT = Lam (Var 0 $ Bool.trueT $ Lam Bool.falseT)
 
     // Can this be eval'd?
     /// isSomeT : 'a option -> bool
-    let isSomeT = Lam (apps [ Var 0 ; Bool.falseT ; Lam Bool.trueT ])
+    let isSomeT = Lam (Var 0 $ Bool.falseT $ Lam Bool.trueT)
 
     let toTerm =
         function
-        | None -> noneT
-        | Some t -> lams 2 (apps [ Var 0 ; t ])
+        | None   -> noneT
+        | Some t -> lams 2 (Var 0 $ t )
 
     let fromTerm =
         function

@@ -62,7 +62,7 @@ type TestOption () =
                 someV, someF, some13
             ]
 
-        let test (v, f, expected) = Assert.AreEqual(expected, apps [ Option.applyT ; v ; f ] |> Eval.eval)
+        let test (v, f, expected) = Assert.AreEqual(expected, (Option.applyT $ v $ f) |> Eval.eval)
         combinations |> List.iter test
 
     [<Test>]
@@ -80,5 +80,5 @@ type TestOption () =
                 someV, some13
             ]
 
-        let test (v, expected) = Assert.AreEqual(expected, apps [ Option.mapT ; v ; f ] |> Eval.eval)
+        let test (v, expected) = Assert.AreEqual(expected, (Option.mapT $ v $ f) |> Eval.eval)
         combinations |> List.iter test

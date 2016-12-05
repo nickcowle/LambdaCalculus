@@ -9,10 +9,10 @@ module Bool =
     let falseT = lams 2 (Var 0)
 
     /// andT : bool -> bool -> bool
-    let andT = lams 4 (apps [ Var 3 ; appVars [ 2 ; 1 ; 0] ; Var 0 ])
+    let andT = lams 4 (Var 3 $ appVars [ 2 ; 1 ; 0] $ Var 0)
 
     /// orT : bool -> bool -> bool
-    let orT = lams 4 (apps [ Var 3 ; Var 1 ; appVars [ 2 ; 1 ; 0] ])
+    let orT = lams 4 (Var 3 $ Var 1 $ appVars [ 2 ; 1 ; 0])
 
     /// notT : bool -> bool
     let notT = lams 3 (appVars [ 2 ; 0 ; 1 ])

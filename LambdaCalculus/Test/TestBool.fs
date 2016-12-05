@@ -21,7 +21,7 @@ type TestBool () =
             ]
 
         let testCombination (b1, b2, expected) =
-            let actual = apps [ Bool.andT ; b1 ; b2 ] |> Eval.eval
+            let actual = (Bool.andT $ b1 $ b2) |> Eval.eval
             Assert.AreEqual(expected, actual)
 
         combinations |> Seq.iter testCombination
@@ -37,15 +37,15 @@ type TestBool () =
             ]
 
         let testCombination (b1, b2, expected) =
-            let actual = apps [ Bool.orT ; b1 ; b2 ] |> Eval.eval
+            let actual = (Bool.orT $ b1 $ b2) |> Eval.eval
             Assert.AreEqual(expected, actual)
 
         combinations |> Seq.iter testCombination
     [<Test>]
     member __.``not laws hold`` () =
 
-        let notTrue = App(Bool.notT, Bool.trueT) |> Eval.eval
+        let notTrue = (Bool.notT $ Bool.trueT) |> Eval.eval
         Assert.AreEqual(Bool.falseT, notTrue)
 
-        let notFalse = App(Bool.notT, Bool.falseT) |> Eval.eval
+        let notFalse = (Bool.notT $ Bool.falseT) |> Eval.eval
         Assert.AreEqual(Bool.trueT, notFalse)

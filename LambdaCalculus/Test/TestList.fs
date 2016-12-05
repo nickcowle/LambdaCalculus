@@ -14,12 +14,12 @@ type TestList () =
 
     [<Test>]
     member __.``empty list is empty`` () =
-        let result = apps [ List.isEmptyT ; List.emptyT ] |> Eval.eval
+        let result = (List.isEmptyT $ List.emptyT) |> Eval.eval
         Assert.AreEqual(Bool.trueT, result)
 
     [<Test>]
     member __.``non-empty list is not empty`` () =
-        let result = apps [ List.isEmptyT ; apps [ List.consT ; Nat.toTerm 5 ; List.emptyT ]] |> Eval.eval
+        let result = (List.isEmptyT $ (List.consT $ Nat.toTerm 5 $ List.emptyT)) |> Eval.eval
         Assert.AreEqual(Bool.falseT, result)
 
     [<Test>]
@@ -44,7 +44,7 @@ type TestList () =
         let rec constructListT =
             function
             | [] -> List.emptyT
-            | t::ts -> apps [ List.consT ; t ; constructListT ts ]
+            | t::ts -> List.consT $ t $ constructListT ts
 
         let l2 = list |> constructListT |> Eval.eval
 
@@ -75,7 +75,7 @@ type TestList () =
 
     [<Test>]
     member __.``test repeat`` () =
-        let result = apps [ List.repeatT ; Nat.toTerm 8 ; Nat.toTerm 3 ] |> Eval.eval
+        let result = (List.repeatT $ Nat.toTerm 8 $ Nat.toTerm 3) |> Eval.eval
         let expected = List.replicate 8 (Nat.toTerm 3) |> List.toTerm
         Assert.AreEqual(expected, result)
 
@@ -83,13 +83,13 @@ type TestList () =
     member __.``test append`` () =
         let l1 = [1..5] |> List.rev |> List.map Nat.toTerm
         let l2 = [6..10] |> List.map Nat.toTerm
-        let result = apps [ List.appendT ; List.toTerm l1 ; List.toTerm l2 ] |> Eval.eval
+        let result = (List.appendT $ List.toTerm l1 $ List.toTerm l2) |> Eval.eval
         Assert.AreEqual((l1 @ l2) |> List.toTerm, result)
 
     [<Test>]
     member __.``test collect`` () =
         let list = [1..5] |> List.map Nat.toTerm
-        let result = apps [ List.collectT ; (List.repeatT $ Nat.toTerm 3) ; list |> List.toTerm ] |> Eval.eval
+        let result = (List.collectT $ (List.repeatT $ Nat.toTerm 3) $ (list |> List.toTerm)) |> Eval.eval
         let expected = list |> List.collect (List.replicate 3) |> List.toTerm
         Assert.AreEqual(expected, result)
 

@@ -18,22 +18,22 @@ type TestNat () =
 
     [<Test>]
     member __.``succ zero = one`` () =
-        let one = apps [ Nat.succT ; Nat.zeroT ] |> Eval.eval |> Nat.fromTerm |> Option.get
+        let one = (Nat.succT $ Nat.zeroT) |> Eval.eval |> Nat.fromTerm |> Option.get
         Assert.AreEqual(1, one)
 
     [<Test>]
     member __.``8 + 13 = 21`` () =
-        let result = apps [ Nat.addT ; Nat.toTerm 8 ; Nat.toTerm 13 ] |> Eval.eval |> Nat.fromTerm |> Option.get
+        let result = (Nat.addT $ Nat.toTerm 8 $ Nat.toTerm 13) |> Eval.eval |> Nat.fromTerm |> Option.get
         Assert.AreEqual(21, result)
 
     [<Test>]
     member __.``13 + 8 = 21`` () =
-        let result = apps [ Nat.addT ; Nat.toTerm 13 ; Nat.toTerm 8 ] |> Eval.eval |> Nat.fromTerm |> Option.get
+        let result = (Nat.addT $ Nat.toTerm 13 $ Nat.toTerm 8) |> Eval.eval |> Nat.fromTerm |> Option.get
         Assert.AreEqual(21, result)
 
     [<Test>]
     member __.``3 * 4 = 12`` () =
-        let result = apps [ Nat.multT ; Nat.toTerm 3 ; Nat.toTerm 4 ] |> Eval.eval |> Nat.fromTerm |> Option.get
+        let result = (Nat.multT $ Nat.toTerm 3 $ Nat.toTerm 4) |> Eval.eval |> Nat.fromTerm |> Option.get
         Assert.AreEqual(12, result)
 
     [<Test>]
