@@ -18,7 +18,10 @@ module Nat =
     let isZeroT = Lam (Var 0 $ Lam (Bool.falseT) $ Bool.trueT)
 
     /// predT : Nat -> Nat
-    let predT = lams 3 (Pair.secondT $ (Var 2 $ Lam (Bool.ifT $ (Pair.firstT $ Var 0) $ (Pair.pairT $ Bool.trueT $ (Var 2 $ (Pair.secondT $ Var 0))) $ (Pair.pairT $ Bool.trueT $ (Pair.secondT $ Var 0))) $ (Pair.pairT $ Bool.falseT $ Var 0)))
+    let predT =
+        let s = Lam (Pair.pairT $ Bool.trueT $ (Pair.firstT $ Var 0 $ (Var 2 $ (Pair.secondT $ Var 0)) $ (Pair.secondT $ Var 0)))
+        let z = Pair.pairT $ Bool.falseT $ Var 0
+        lams 3 (Pair.secondT $ (Var 2 $ s $ z))
 
     /// subtractT : Nat -> Nat -> Nat
     let subtractT = lams 2 (Var 0 $ predT $ Var 1)
