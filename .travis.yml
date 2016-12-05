@@ -1,3 +1,5 @@
 language: csharp
 solution: LambdaCalculus.sln
-
+script:
+  - xbuild /p:Configuration=Release LambdaCalculus.sln
+  - mono ./packages/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./LambdaCalculus/bin/Release/LambdaCalculus.dll
