@@ -57,12 +57,12 @@ type TestPair () =
 
     [<Test>]
     member __.``(pair >> flip) >> flip evals to pair`` () =
-        let result = (Functions.compose2T $ (Functions.compose2T $ Pair.pairT $ Pair.flipT) $ Pair.flipT) |> Eval.eval
+        let result = (Combinators.compose2T $ (Combinators.compose2T $ Pair.pairT $ Pair.flipT) $ Pair.flipT) |> Eval.eval
         Assert.AreEqual(Pair.pairT, result)
 
     [<Test>]
     member __.``pair >> (flip >> flip) evals to pair`` () =
-        let result = (Functions.compose2T $ Pair.pairT $ (Functions.composeT $ Pair.flipT $ Pair.flipT)) |> Eval.eval
+        let result = (Combinators.compose2T $ Pair.pairT $ (Combinators.composeT $ Pair.flipT $ Pair.flipT)) |> Eval.eval
         Assert.AreEqual(Pair.pairT, result)
 
     // any other composition optimisations

@@ -16,10 +16,10 @@ module Option =
     let returnT = someT
 
     /// applyT : 'a option -> ('a -> 'b) option -> 'b option
-    let applyT = Functions.bindToApplyT $ bindT $ returnT
+    let applyT = Combinators.bindToApplyT $ bindT $ returnT
 
     /// mapT : 'a option -> ('a -> 'b) -> 'b option
-    let mapT = Functions.applyToMapT $ applyT $ returnT
+    let mapT = Combinators.applyToMapT $ applyT $ returnT
 
     // Can this be eval'd?
     /// isNoneT : 'a option -> bool
