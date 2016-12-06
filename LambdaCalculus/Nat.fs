@@ -26,6 +26,12 @@ module Nat =
     /// subtractT : Nat -> Nat -> Nat
     let subtractT = lams 2 (Var 0 $ predT $ Var 1)
 
+    /// eqT : Nat -> Nat -> bool
+    let eqT =
+        let s = Pair.pairT $ Bool.falseT
+        let z = Pair.pairT $ Bool.trueT $ (Combinators.Y $ Lam (Pair.pairT $ Bool.falseT $ Var 0))
+        lams 2 (Pair.firstT $ (Var 1 $ Pair.secondT $ (Var 0 $ s $ z)))
+
     let toTerm i =
         let rec body = function 0 -> Var 0 | n -> (Var 1 $ body (n-1))
         lams 2 (body i)

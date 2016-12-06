@@ -65,3 +65,18 @@ type TestNat () =
     member __.``three is not zero`` () =
         let result = (Nat.isZeroT $ Nat.toTerm 3) |> Eval.eval
         Assert.AreEqual(Bool.falseT, result)
+
+    [<Test>]
+    member __.``5 eq 5`` () =
+        let result = (Nat.eqT $ Nat.toTerm 5 $ Nat.toTerm 5) |> Eval.eval
+        Assert.AreEqual(Bool.trueT, result)
+
+    [<Test>]
+    member __.``5 not eq 6`` () =
+        let result = (Nat.eqT $ Nat.toTerm 5 $ Nat.toTerm 6) |> Eval.eval
+        Assert.AreEqual(Bool.falseT, result)
+
+    [<Test>]
+    member __.``5 not eq 4`` () =
+        let result = (Nat.eqT $ Nat.toTerm 5 $ Nat.toTerm 4) |> Eval.eval
+        Assert.AreEqual(Bool.falseT, result)
