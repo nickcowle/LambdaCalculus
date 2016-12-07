@@ -48,6 +48,15 @@ module List =
     /// productT : Nat list -> Nat
     let productT = foldT $ Nat.multT $ (Nat.succT $ Nat.zeroT)
 
+    /// takeT : Nat -> 'a list -> 'a list
+    let takeT = Combinators.Y $ lams 3 ((Nat.isZeroT $ Var 1) $ emptyT $ (Var 0 $ emptyT $ lams 2 (consT $ Var 1 $ (Var 4 $ (Nat.predT $ Var 3) $ Var 0))))
+
+    /// skipT : Nat -> 'a list -> 'a list
+    let skipT = lams 2 (Var 1 $ Lam (Var 0 $ emptyT $ lams 2 (Var 0)) $ Var 0)
+
+    /// natsT : Nat list
+    let natsT = Combinators.Y $ lams 2 (consT $ Var 0 $ (Var 1 $ (Nat.succT $ Var 0))) $ Nat.zeroT
+
     let rec toTerm =
         function
         | [] -> emptyT

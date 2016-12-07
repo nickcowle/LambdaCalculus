@@ -100,3 +100,15 @@ type TestList () =
         let result = (List.mapT $ toTerm list $ Nat.succT) |> Eval.eval
         let expected = list |> List.map (fun n -> n + 1) |> toTerm
         Assert.AreEqual(expected, result)
+
+    [<Test>]
+    member __.``the seventh natural is 7`` () =
+        let result = (List.tryHeadT $ (List.skipT $ Nat.toTerm 7 $ List.natsT)) |> Eval.eval
+        let expected = 7 |> Nat.toTerm |> Some |> Option.toTerm
+        Assert.AreEqual(expected, result)
+
+    [<Test>]
+    member __.``the fifth to seventh naturals are [5..7]`` () =
+        let result = (List.takeT $ Nat.toTerm 3 $ (List.skipT $ Nat.toTerm 5 $ List.natsT)) |> Eval.eval
+        let expected = [5..7] |> List.map Nat.toTerm |> List.toTerm
+        Assert.AreEqual(expected, result)
