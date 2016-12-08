@@ -19,8 +19,8 @@ module Nat =
 
     /// predT : Nat -> Nat
     let predT =
-        let s = Lam (Pair.pairT $ Bool.trueT $ (Pair.firstT $ Var 0 $ (Var 2 $ (Pair.secondT $ Var 0)) $ (Pair.secondT $ Var 0)))
-        let z = Pair.pairT $ Bool.falseT $ Var 0
+        let s = Lam (Pair.makeT $ Bool.trueT $ (Pair.firstT $ Var 0 $ (Var 2 $ (Pair.secondT $ Var 0)) $ (Pair.secondT $ Var 0)))
+        let z = Pair.makeT $ Bool.falseT $ Var 0
         lams 3 (Pair.secondT $ (Var 2 $ s $ z))
 
     /// subtractT : Nat -> Nat -> Nat
@@ -28,8 +28,8 @@ module Nat =
 
     /// eqT : Nat -> Nat -> bool
     let eqT =
-        let s = Pair.pairT $ Bool.falseT
-        let z = Pair.pairT $ Bool.trueT $ (Combinators.Y $ Lam (Pair.pairT $ Bool.falseT $ Var 0))
+        let s = Pair.makeT $ Bool.falseT
+        let z = Pair.makeT $ Bool.trueT $ (Combinators.Y $ Lam (Pair.makeT $ Bool.falseT $ Var 0))
         lams 2 (Pair.firstT $ (Var 1 $ Pair.secondT $ (Var 0 $ s $ z)))
 
     let toTerm i =

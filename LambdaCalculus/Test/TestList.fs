@@ -23,16 +23,16 @@ type TestList () =
         Assert.AreEqual(Bool.falseT, result)
 
     [<Test>]
-    member __.``tryHead works on an empty list`` () =
+    member __.``head returns None on an empty list`` () =
         let list = [1..5] |> List.rev |> List.map Nat.toTerm |> List.toTerm
-        let result = (List.tryHeadT $ list) |> Eval.eval
+        let result = (List.headT $ list) |> Eval.eval
         let expected = 5 |> Nat.toTerm |> Some |> Option.toTerm
         Assert.AreEqual(expected, result)
 
     [<Test>]
-    member __.``tryHead works on a non-empty list`` () =
+    member __.``head returns the first element of a non-empty list`` () =
         let list = [] |> List.rev |> List.map Nat.toTerm |> List.toTerm
-        let result = (List.tryHeadT $ list) |> Eval.eval
+        let result = (List.headT $ list) |> Eval.eval
         let expected = None |> Option.toTerm
         Assert.AreEqual(expected, result)
 
@@ -74,9 +74,21 @@ type TestList () =
         Assert.AreEqual(Nat.toTerm 7, length)
 
     [<Test>]
-    member __.``test repeat`` () =
-        let result = (List.repeatT $ Nat.toTerm 8 $ Nat.toTerm 3) |> Eval.eval
+    member __.``test replicate`` () =
+        let result = (List.replicateT $ Nat.toTerm 8 $ Nat.toTerm 3) |> Eval.eval
         let expected = List.replicate 8 (Nat.toTerm 3) |> List.toTerm
+        Assert.AreEqual(expected, result)
+
+    [<Test>]
+    member __.``test repeat`` () =
+        let result = List.takeT $ Nat.toTerm 8 $ (List.repeatT $ Nat.toTerm 3) |> Eval.eval
+        let expected = List.replicate 8 (Nat.toTerm 3) |> List.toTerm
+        Assert.AreEqual(expected, result)
+
+    [<Test>]
+    member __.``test singleton`` () =
+        let result = (List.singletonT $ Nat.toTerm 4) |> Eval.eval
+        let expected = Nat.toTerm 4 |> List.singleton |> List.toTerm
         Assert.AreEqual(expected, result)
 
     [<Test>]
@@ -89,7 +101,7 @@ type TestList () =
     [<Test>]
     member __.``test collect`` () =
         let list = [1..5] |> List.map Nat.toTerm
-        let result = (List.collectT $ (List.repeatT $ Nat.toTerm 3) $ (list |> List.toTerm)) |> Eval.eval
+        let result = (List.collectT $ (List.replicateT $ Nat.toTerm 3) $ (list |> List.toTerm)) |> Eval.eval
         let expected = list |> List.collect (List.replicate 3) |> List.toTerm
         Assert.AreEqual(expected, result)
 
@@ -103,7 +115,7 @@ type TestList () =
 
     [<Test>]
     member __.``the seventh natural is 7`` () =
-        let result = (List.tryHeadT $ (List.skipT $ Nat.toTerm 7 $ List.natsT)) |> Eval.eval
+        let result = (List.headT $ (List.skipT $ Nat.toTerm 7 $ List.natsT)) |> Eval.eval
         let expected = 7 |> Nat.toTerm |> Some |> Option.toTerm
         Assert.AreEqual(expected, result)
 

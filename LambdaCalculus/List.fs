@@ -11,8 +11,14 @@ module List =
     /// isEmptyT : 'a list -> bool
     let isEmptyT = lams 3 (Var 2 $ Var 1 $ lams 2 (Var 2))
 
-    /// repeatT : Nat -> 'a -> 'a list
-    let repeatT = lams 2 (Var 1 $ (consT $ Var 0) $ emptyT)
+    /// replicateT : Nat -> 'a -> 'a list
+    let replicateT = lams 2 (Var 1 $ (consT $ Var 0) $ emptyT)
+
+    /// repeatT : 'a -> 'a list
+    let repeatT = Combinators.Y $ lams 2 (consT $ Var 0 $ (Var 1 $ Var 0))
+
+    /// singletonT : 'a -> 'a list
+    let singletonT = Lam (consT $ Var 0 $ emptyT)
 
     /// foldT : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a
     let foldT = Combinators.Y $ lams 4 (Var 0 $ Var 1 $ lams 2 (Var 4 $ appVars [ 5 ; 4 ; 3 ; 0 ] $ Var 1))
@@ -39,8 +45,8 @@ module List =
     let mapT = Combinators.applyToMapT $ applyT $ returnT
 
     // Can this be eval'd for a more optimal function? Yes.
-    /// tryHeadT : 'a list -> 'a option
-    let tryHeadT = Lam (Var 0 $ Option.noneT $ lams 2 (Option.someT $ Var 1))
+    /// headT : 'a list -> 'a option
+    let headT = Lam (Var 0 $ Option.noneT $ lams 2 (Option.someT $ Var 1))
 
     /// sumT : Nat list -> Nat
     let sumT = foldT $ Nat.addT $ Nat.zeroT

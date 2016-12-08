@@ -11,7 +11,7 @@ type TestPair () =
         let five = Nat.toTerm 5
         let eight = Nat.toTerm 8
         let p1 = Pair.toTerm (five, eight)
-        let p2 = (Pair.pairT $ five $ eight) |> Eval.eval
+        let p2 = (Pair.makeT $ five $ eight) |> Eval.eval
         Assert.AreEqual(p1, p2)
 
     [<Test>]
@@ -33,7 +33,7 @@ type TestPair () =
 
         let f = Nat.toTerm 5
         let s = Nat.toTerm 8
-        let pair = (Pair.pairT $ f $ s ) |> Eval.eval
+        let pair = (Pair.makeT $ f $ s ) |> Eval.eval
         let f'   = (Pair.firstT  $ pair) |> Eval.eval
         let s'   = (Pair.secondT $ pair) |> Eval.eval
 
@@ -45,7 +45,7 @@ type TestPair () =
         let pair  = Pair.toTerm (Nat.toTerm 5, Nat.toTerm 8)
         let f     = (Pair.firstT  $ pair) |> Eval.eval
         let s     = (Pair.secondT $ pair) |> Eval.eval
-        let pair' = (Pair.pairT $ f $ s ) |> Eval.eval
+        let pair' = (Pair.makeT $ f $ s ) |> Eval.eval
 
         Assert.AreEqual(pair, pair')
 
@@ -57,12 +57,12 @@ type TestPair () =
 
     [<Test>]
     member __.``(pair >> flip) >> flip evals to pair`` () =
-        let result = (Combinators.compose2T $ (Combinators.compose2T $ Pair.pairT $ Pair.flipT) $ Pair.flipT) |> Eval.eval
-        Assert.AreEqual(Pair.pairT, result)
+        let result = (Combinators.compose2T $ (Combinators.compose2T $ Pair.makeT $ Pair.flipT) $ Pair.flipT) |> Eval.eval
+        Assert.AreEqual(Pair.makeT, result)
 
     [<Test>]
     member __.``pair >> (flip >> flip) evals to pair`` () =
-        let result = (Combinators.compose2T $ Pair.pairT $ (Combinators.composeT $ Pair.flipT $ Pair.flipT)) |> Eval.eval
-        Assert.AreEqual(Pair.pairT, result)
+        let result = (Combinators.compose2T $ Pair.makeT $ (Combinators.composeT $ Pair.flipT $ Pair.flipT)) |> Eval.eval
+        Assert.AreEqual(Pair.makeT, result)
 
     // any other composition optimisations

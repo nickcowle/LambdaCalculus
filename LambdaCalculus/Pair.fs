@@ -2,8 +2,8 @@
 
 module Pair =
 
-    /// pairT : 'a -> 'b -> ('a * 'b)
-    let pairT = lams 3 (appVars [ 0 ; 2 ; 1])
+    /// makeT : 'a -> 'b -> ('a * 'b)
+    let makeT = lams 3 (appVars [ 0 ; 2 ; 1])
 
     /// firstT : ('a * 'b) -> 'a
     let firstT = Lam (Var 0 $ lams 2 (Var 1))
