@@ -32,6 +32,12 @@ module Nat =
         let z = Pair.makeT $ Bool.trueT $ (Combinators.Y $ Lam (Pair.makeT $ Bool.falseT $ Var 0))
         lams 2 (Pair.firstT $ (Var 1 $ Pair.secondT $ (Var 0 $ s $ z)))
 
+    /// compareT : Nat -> Nat -> Ordering
+    let compareT =
+        let s = Pair.makeT $ Ordering.lessThanT
+        let z = Pair.makeT $ Ordering.equalT $ (Combinators.Y $ Lam (Pair.makeT $ Ordering.greaterThanT $ Var 0))
+        lams 2 (Pair.firstT $ (Var 1 $ Pair.secondT $ (Var 0 $ s $ z)))
+
     let toTerm i =
         let rec body = function 0 -> Var 0 | n -> (Var 1 $ body (n-1))
         lams 2 (body i)

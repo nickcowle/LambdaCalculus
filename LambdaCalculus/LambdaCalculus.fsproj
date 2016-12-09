@@ -63,15 +63,18 @@
     <Compile Include="Eval.fs" />
     <Compile Include="Bool.fs" />
     <Compile Include="Pair.fs" />
+    <Compile Include="Ordering.fs" />
     <Compile Include="Nat.fs" />
     <Compile Include="Option.fs" />
     <Compile Include="List.fs" />
+    <Compile Include="Map.fs" />
     <Compile Include="PrettyPrinter.fs" />
     <Compile Include="Test\TestBool.fs" />
     <Compile Include="Test\TestNat.fs" />
     <Compile Include="Test\TestPair.fs" />
     <Compile Include="Test\TestOption.fs" />
     <Compile Include="Test\TestList.fs" />
+    <Compile Include="Test\TestMap.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

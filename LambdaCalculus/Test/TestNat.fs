@@ -80,3 +80,18 @@ type TestNat () =
     member __.``5 not eq 4`` () =
         let result = (Nat.eqT $ Nat.toTerm 5 $ Nat.toTerm 4) |> Eval.eval
         Assert.AreEqual(Bool.falseT, result)
+
+    [<Test>]
+    member __.``5 compare 5 is Equal`` () =
+        let result = (Nat.compareT $ Nat.toTerm 5 $ Nat.toTerm 5) |> Eval.eval
+        Assert.AreEqual(Ordering.equalT, result)
+
+    [<Test>]
+    member __.``5 compare 6 is LessThan`` () =
+        let result = (Nat.compareT $ Nat.toTerm 5 $ Nat.toTerm 6) |> Eval.eval
+        Assert.AreEqual(Ordering.lessThanT, result)
+
+    [<Test>]
+    member __.``5 compare 4 is GreaterThan`` () =
+        let result = (Nat.compareT $ Nat.toTerm 5 $ Nat.toTerm 4) |> Eval.eval
+        Assert.AreEqual(Ordering.greaterThanT, result)
