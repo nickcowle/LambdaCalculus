@@ -1,0 +1,15 @@
+﻿none := λλ 1
+
+some := λλλ 0 2
+
+bind := λλ 1 (λλ 1) 0
+
+return := Option.some
+
+apply := Combinators.bindToApply Option.bind Option.return
+
+map := Combinators.applyToMap Option.apply Option.return
+
+isNone := λ 0 Bool.true (λ Bool.false)
+
+isSome := λ 0 Bool.false (λ Bool.true)

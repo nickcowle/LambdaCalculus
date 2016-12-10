@@ -1,0 +1,39 @@
+﻿empty := λλ 1
+
+cons := λλλλ 0 3 2
+
+isEmpty := λλλ 2 1 (λλ 2)
+
+replicate := λλ 1 (List.cons 0) List.empty
+
+repeat := Combinators.Y (λλ List.cons 0 (1 0))
+
+singleton := λ List.cons 0 List.empty
+
+fold := Combinators.Y (λλλλ 0 1 (λλ 4 (5 4 3 0) 1))
+
+length := List.fold (λλ Nat.succ 1) Nat.zero
+
+append := Combinators.Y (λλλ 1 0 (λλ List.cons 1 (4 0 2)))
+
+collect := λλ List.fold (λλ List.append (3 0) 1) List.empty 0
+
+bind := λλ List.collect 0 1
+
+return := λ List.cons 0 List.empty
+
+apply := Combinators.bindToApply List.bind List.return
+
+map := Combinators.applyToMap List.apply List.return
+
+head := λ (0 Option.none (λλ Option.some 1))
+
+sum := List.fold Nat.add Nat.zero
+
+product := List.fold Nat.mult (Nat.succ Nat.zero)
+
+take := Combinators.Y (λλλ (Nat.isZero 1) List.empty (0 List.empty (λλ List.cons 1 (4 (Nat.pred 3) 0))))
+
+skip := λλ 1 (λ 0 List.empty (λλ 0)) 0
+
+nats := Combinators.Y (λλ List.cons 0 (1 (Nat.succ 0))) Nat.zero

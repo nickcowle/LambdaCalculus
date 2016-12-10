@@ -1,0 +1,5 @@
+﻿lessThan := λλλ 2
+
+equal := λλλ 1
+
+greaterThan := λλλ 0

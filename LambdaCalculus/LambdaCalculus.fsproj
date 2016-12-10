@@ -79,9 +79,15 @@
     <Compile Include="Test\TestList.fs" />
     <Compile Include="Test\TestMap.fs" />
     <Compile Include="Test\TestParser.fs" />
+    <Compile Include="Test\TestBaseLibrary.fs" />
     <EmbeddedResource Include="BaseLibrary\Combinators.lam" />
     <EmbeddedResource Include="BaseLibrary\Bool.lam" />
     <EmbeddedResource Include="BaseLibrary\Pair.lam" />
+    <EmbeddedResource Include="BaseLibrary\Ordering.lam" />
+    <EmbeddedResource Include="BaseLibrary\Nat.lam" />
+    <EmbeddedResource Include="BaseLibrary\Option.lam" />
+    <EmbeddedResource Include="BaseLibrary\List.lam" />
+    <EmbeddedResource Include="BaseLibrary\Map.lam" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

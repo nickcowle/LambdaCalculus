@@ -1,0 +1,7 @@
+﻿empty := λλ 1
+
+node := λλλλλλ 0 5 4 3 2
+
+insert := Combinators.Y (λλλλλ 0 (Map.node Map.empty 2 1 Map.empty) (λλλλ 7 6 2 (Map.node (8 7 6 5 3) 2 1 0) (Map.node 3 2 5 0) (Map.node 3 2 1 (8 7 6 5 0))))
+
+find := Combinators.Y (λλλλ 0 Option.none (λλλλ 6 5 2 (7 6 5 3) (Option.some 1) (7 6 5 0)))

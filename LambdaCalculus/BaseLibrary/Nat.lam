@@ -1,0 +1,17 @@
+﻿zero := λλ 0
+
+succ := λλλ 1 (2 1 0)
+
+add := λλλλ 2 1 (3 1 0)
+
+mult := λλλλ 2 (3 1) 0
+
+isZero := λ 0 (λ Bool.false) Bool.true
+
+pred := λλλ Pair.second (2 (λ Pair.make Bool.true (Pair.first 0 (2 (Pair.second 0)) (Pair.second 0))) (Pair.make Bool.false 0))
+
+subtract := λλ 0 Nat.pred 1
+
+equals := λλ Pair.first (1 Pair.second (0 (Pair.make Bool.false) (Pair.make Bool.true (Combinators.Y (λ Pair.make Bool.false 0)))))
+
+compare := λλ Pair.first (1 Pair.second (0 (Pair.make Ordering.lessThan) (Pair.make Ordering.equal (Combinators.Y (λ Pair.make Ordering.greaterThan 0)))))
