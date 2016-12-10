@@ -51,3 +51,10 @@ module Eval =
                 | _ -> LApp (t1, t2)
 
     let eval = toLazy >> evalLazy >> fromLazy
+
+    let rec resolveIdentifiers (context : Map<string, TermI>) =
+        function
+        | VarI   i -> Var i
+        | AppI   (t1, t2) -> App (resolveIdentifiers context t1, resolveIdentifiers context t2)
+        | LamI   t -> Lam (resolveIdentifiers context t)
+        | IdentI s -> context |> Map.find s |> resolveIdentifiers context

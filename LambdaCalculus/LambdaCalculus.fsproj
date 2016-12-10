@@ -79,6 +79,7 @@
     <Compile Include="Test\TestList.fs" />
     <Compile Include="Test\TestMap.fs" />
     <Compile Include="Test\TestParser.fs" />
+    <EmbeddedResource Include="BaseLibrary\Combinators.lam" />
     <EmbeddedResource Include="BaseLibrary\Bool.lam" />
     <EmbeddedResource Include="BaseLibrary\Pair.lam" />
     <Content Include="packages.config" />

@@ -1,0 +1,9 @@
+﻿compose := λλλ 1 (2 0)
+
+compose2 := λλλλ 2 (3 1 0)
+
+Y := λ (λ 1 (0 0)) (λ 1 (0 0))
+
+bindToApply := λλλλ 3 0 (λ 4 2 (Combinators.compose 0 3))
+
+applyToMap := λλλλ 3 1 (2 0)
