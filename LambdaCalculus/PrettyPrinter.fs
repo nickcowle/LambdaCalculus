@@ -11,8 +11,8 @@ module PrettyPrinter =
 
     let makePrinter (PrettyPrinter printers) =
         let rec print t =
-            match printers |> Seq.choose ((|>) t) |> Seq.tryHead with
-            | None -> failwith "No way to print this term!"
+            match printers |> Seq.tryPick ((|>) t) with
+            | None   -> failwith "No way to print this term!"
             | Some f -> f print
         print
 

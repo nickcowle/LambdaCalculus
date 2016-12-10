@@ -11,8 +11,9 @@
     <AssemblyName>LambdaCalculus</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>LambdaCalculus</Name>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +59,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Content Include="App.config" />
     <Compile Include="Term.fs" />
     <Compile Include="Combinators.fs" />
     <Compile Include="Eval.fs" />
@@ -69,15 +71,27 @@
     <Compile Include="List.fs" />
     <Compile Include="Map.fs" />
     <Compile Include="PrettyPrinter.fs" />
+    <Compile Include="Parser.fs" />
     <Compile Include="Test\TestBool.fs" />
     <Compile Include="Test\TestNat.fs" />
     <Compile Include="Test\TestPair.fs" />
     <Compile Include="Test\TestOption.fs" />
     <Compile Include="Test\TestList.fs" />
     <Compile Include="Test\TestMap.fs" />
+    <Compile Include="Test\TestParser.fs" />
+    <EmbeddedResource Include="BaseLibrary\Bool.lam" />
+    <EmbeddedResource Include="BaseLibrary\Pair.lam" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FParsec">
+      <HintPath>..\packages\FParsec.1.0.2\lib\net40-client\FParsec.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FParsecCS">
+      <HintPath>..\packages\FParsec.1.0.2\lib\net40-client\FParsecCS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>

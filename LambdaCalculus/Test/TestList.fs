@@ -88,7 +88,7 @@ type TestList () =
     [<Test>]
     member __.``test singleton`` () =
         let result = (List.singletonT $ Nat.toTerm 4) |> Eval.eval
-        let expected = Nat.toTerm 4 |> List.singleton |> List.toTerm
+        let expected = [ Nat.toTerm 4 ] |> List.toTerm
         Assert.AreEqual(expected, result)
 
     [<Test>]
