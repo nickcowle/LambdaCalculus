@@ -15,10 +15,12 @@ let banner = "
 type Command =
 | Quit
 | Help
-| Eval of TermI
-| Print of TermI
+| Eval   of TermI
+| Print  of TermI
+| Define of (string * TermI)
+| PrintState
 
-let commandParser : _ Parser =
+let commandParser =
     let ws = many1 (skipChar ' ')
     let termParser = Parser.term '\\'
 
@@ -26,21 +28,26 @@ let commandParser : _ Parser =
     let help  = skipString ":h" |>> (fun () -> Help)
     let print = skipString ":p" >>. ws >>. termParser |>> Print
     let eval  = termParser |>> Eval
-    choice [ quit ; help ; print ; eval ] .>> eof
+    let defn  = skipString ":d" >>. ws >>. Parser.definition '\\' |>> Define
+    let state = skipString ":s" |>> (fun () -> PrintState)
+    choice [ quit ; help ; print ; eval ; defn ; state ] .>> eof
 
 let printHelp () =
     printfn ":h - Display this help"
     printfn ":q - Quit"
     printfn ":p - Print a lambda term without evaluating it"
+    printfn ":d name := term - Define a term"
+    printfn ":s - Print state (user-defined terms)"
     printfn ""
     printfn "Type a lambda term to have it evaluated."
 
-let context = BaseLibrary.load ()
+let context     = ref (BaseLibrary.load ())
+let userContext = ref Map.empty
 
 let printer = PrettyPrinter.minimal |> PrettyPrinter.makePrinter
 
 let evaluate t =
-    let t = t |> Eval.resolveIdentifiers context
+    let t = t |> Eval.resolveIdentifiers context.Value
     match t with
     | Success t -> t |> Eval.eval |> printer |> printfn "%s"
     | Failure ids ->
@@ -51,20 +58,35 @@ let evaluate t =
 let print t =
     match t with
     | IdentI s ->
-        match Map.tryFind s context with
+        match Map.tryFind s context.Value with
         | None -> printfn "Could not find definition for identifier %s" s
         | Some t -> printfn "%s" (PrettyPrinter.printTermI t)
     | _ -> printfn "Print can only be used on identifiers"
+
+let define (name : string, t) =
+    let fullName = sprintf "User.%s" name
+    context     := Map.add fullName t context.Value
+    userContext := Map.add fullName t userContext.Value
+    printfn "Term %s now defined." fullName
+
+let printState () =
+    let printDefinition (name, term) =
+        printfn "%s := %s" name (PrettyPrinter.printTermI term)
+        printfn ""
+
+    userContext.Value |> Map.toSeq |> Seq.iter printDefinition
 
 let runCommand (command : string) =
     let parse = run commandParser command
     match parse with
     | ParserResult.Success (c, _, _) ->
         match c with
-        | Quit    -> printfn "Exiting." ; Environment.Exit 0
-        | Help    -> printHelp ()
-        | Eval  t -> evaluate t
-        | Print t -> print t
+        | Quit       -> printfn "Exiting." ; Environment.Exit 0
+        | Help       -> printHelp ()
+        | Eval  t    -> evaluate t
+        | Print t    -> print t
+        | Define t   -> define t
+        | PrintState -> printState ()
     | ParserResult.Failure (error, _, _) -> printfn "Failed to parse command:\n%s" error
 
 [<EntryPoint>]
