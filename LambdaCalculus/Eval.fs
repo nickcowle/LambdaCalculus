@@ -54,7 +54,21 @@ module Eval =
 
     let rec resolveIdentifiers (context : Map<string, TermI>) =
         function
-        | VarI   i -> Var i
-        | AppI   (t1, t2) -> App (resolveIdentifiers context t1, resolveIdentifiers context t2)
-        | LamI   t -> Lam (resolveIdentifiers context t)
-        | IdentI s -> context |> Map.find s |> resolveIdentifiers context
+        | VarI i -> Var i |> Success
+        | AppI (t1, t2) ->
+            let r1 = resolveIdentifiers context t1
+            let r2 = resolveIdentifiers context t2
+            match r1, r2 with
+            | Success t1,   Success t2   -> App (t1, t2) |> Success
+            | Failure ids,  Success _    -> Failure ids
+            | Success _,    Failure ids  -> Failure ids
+            | Failure ids1, Failure ids2 -> Failure (ids1 @ ids2)
+        | LamI t ->
+            let r = resolveIdentifiers context t
+            match r with
+            | Success t   -> Lam t |> Success
+            | Failure ids -> Failure ids
+        | IdentI s ->
+            match context |> Map.tryFind s with
+            | Some t -> resolveIdentifiers context t
+            | None -> Failure [ s ]

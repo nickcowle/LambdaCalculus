@@ -5,15 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>6ddd302e-8e8f-4aba-b431-ec89080c3d2d</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>LambdaCalculus</RootNamespace>
-    <AssemblyName>LambdaCalculus</AssemblyName>
+    <ProjectGuid>3f8800a3-5b66-4348-9673-acfc39565510</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>LambdaCalculus.REPL</RootNamespace>
+    <AssemblyName>LambdaCalculus.REPL</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>LambdaCalculus</Name>
-    <TargetFrameworkProfile />
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
+    <Name>LambdaCalculus.REPL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,10 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\LambdaCalculus.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\LambdaCalculus.REPL.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,10 +34,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\LambdaCalculus.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\LambdaCalculus.REPL.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -59,37 +54,9 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Content Include="App.config" />
-    <Compile Include="Result.fs" />
-    <Compile Include="Term.fs" />
-    <Compile Include="Combinators.fs" />
-    <Compile Include="Eval.fs" />
-    <Compile Include="Bool.fs" />
-    <Compile Include="Pair.fs" />
-    <Compile Include="Ordering.fs" />
-    <Compile Include="Nat.fs" />
-    <Compile Include="Option.fs" />
-    <Compile Include="List.fs" />
-    <Compile Include="Map.fs" />
-    <Compile Include="PrettyPrinter.fs" />
-    <Compile Include="Parser.fs" />
-    <Compile Include="BaseLibrary.fs" />
-    <Compile Include="Test\TestBool.fs" />
-    <Compile Include="Test\TestNat.fs" />
-    <Compile Include="Test\TestPair.fs" />
-    <Compile Include="Test\TestOption.fs" />
-    <Compile Include="Test\TestList.fs" />
-    <Compile Include="Test\TestMap.fs" />
-    <Compile Include="Test\TestParser.fs" />
-    <Compile Include="Test\TestBaseLibrary.fs" />
-    <EmbeddedResource Include="BaseLibrary\Combinators.lam" />
-    <EmbeddedResource Include="BaseLibrary\Bool.lam" />
-    <EmbeddedResource Include="BaseLibrary\Pair.lam" />
-    <EmbeddedResource Include="BaseLibrary\Ordering.lam" />
-    <EmbeddedResource Include="BaseLibrary\Nat.lam" />
-    <EmbeddedResource Include="BaseLibrary\Option.lam" />
-    <EmbeddedResource Include="BaseLibrary\List.lam" />
-    <EmbeddedResource Include="BaseLibrary\Map.lam" />
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Program.fs" />
+    <None Include="App.config" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -105,13 +72,14 @@
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\LambdaCalculus\LambdaCalculus.fsproj">
+      <Name>LambdaCalculus</Name>
+      <Project>{6ddd302e-8e8f-4aba-b431-ec89080c3d2d}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

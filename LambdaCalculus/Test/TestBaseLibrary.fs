@@ -102,21 +102,7 @@ type TestBaseLibrary () =
             ]
         ]
 
-    let readLamResource resourceName =
-        let assembly = Assembly.GetExecutingAssembly()
-        use stream = assembly.GetManifestResourceStream resourceName
-        let parsed = runParserOnStream (Parser.definitions ()) () resourceName stream System.Text.Encoding.UTF8
-
-        match parsed with
-        | Success (terms, _, _) -> terms
-        | Failure _ -> failwithf "Could not parse file %s" resourceName
-
-    let context =
-        let makeContextForModule (moduleName : string) =
-            moduleName |> sprintf "%s.lam" |> readLamResource
-            |> List.map (fun (termName, term) -> sprintf "%s.%s" moduleName termName, term)
-
-        filesToTest |> Seq.collect (fst >> makeContextForModule) |> Map.ofSeq
+    let context = filesToTest |> Seq.collect (fst >> BaseLibrary.loadModule) |> Map.ofSeq
 
     [<Test>]
     member __.``test correctness of base library definition`` () =
@@ -129,7 +115,7 @@ type TestBaseLibrary () =
                     match Map.tryFind fullName context with
                     | Some t -> t
                     | None -> failwithf "Could not find %s in context" fullName
-                let actual = term |> Eval.resolveIdentifiers context
+                let actual = term |> Eval.resolveIdentifiers context |> Result.force
                 let errorMessage = sprintf "Definitions of %s do not match!" fullName
                 Assert.AreEqual(expected, actual, errorMessage)
 
