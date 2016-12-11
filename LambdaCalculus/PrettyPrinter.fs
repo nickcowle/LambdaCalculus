@@ -73,7 +73,9 @@ module PrettyPrinter =
                 | Var         _ -> printPrintForm t
                 | Ident       _ -> printPrintForm t
                 | LamsAndApps _ -> printPrintForm t |> sprintf "(%s)"
-            let lams = String.replicate lams "λ"
-            sprintf "%s %s" lams (apps |> List.map printInner |> String.concat " ")
+            let apps = apps |> List.map printInner |> String.concat " "
+            match lams with
+            | 0 -> apps
+            | _ -> sprintf "%s %s" (String.replicate lams "λ") apps
 
     let printTermI = toPrintForm >> printPrintForm
