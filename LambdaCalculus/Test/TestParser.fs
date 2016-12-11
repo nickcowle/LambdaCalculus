@@ -1,4 +1,4 @@
-namespace LambdaCalculus.Test
+﻿namespace LambdaCalculus.Test
 
 open FParsec
 open LambdaCalculus
@@ -45,7 +45,7 @@ type TestParser () =
     member __.``test term parsing`` () =
 
         let parse s =
-            match run Parser.term s with
+            match run (Parser.term 'λ') s with
             | ParserResult.Success (t, _, _) -> Some t
             | _ -> None
 

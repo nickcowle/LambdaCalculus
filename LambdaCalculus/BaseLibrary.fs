@@ -10,7 +10,7 @@ module BaseLibrary =
         let readLamResource resourceName =
             let assembly = Assembly.GetExecutingAssembly ()
             use stream = assembly.GetManifestResourceStream resourceName
-            let parsed = runParserOnStream Parser.definitions () resourceName stream System.Text.Encoding.UTF8
+            let parsed = runParserOnStream (Parser.definitions 'λ') () resourceName stream System.Text.Encoding.UTF8
 
             match parsed with
             | Success (terms, _, _) -> terms

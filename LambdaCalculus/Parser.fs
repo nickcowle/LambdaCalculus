@@ -14,7 +14,7 @@ module Parser =
     let qualifiedIdentifier =
         identifier .>>. pstring "." .>>. identifier |>> (fun ((s1, s2), s3) -> s1 + s2 + s3)
 
-    let rec term =
+    let term lambdaChar =
 
         let term, termRef = createParserForwardedToRef ()
 
@@ -28,14 +28,14 @@ module Parser =
             sepBy1 applicant ws1 |>> appsI
 
         let lams =
-            many1 (skipChar 'λ') |>> List.length .>> ws1 .>>. apps |>> ((<||) lamsI)
+            many1 (skipChar lambdaChar) |>> List.length .>> ws1 .>>. apps |>> ((<||) lamsI)
 
         termRef := lams <|> apps
         term
 
-    let definition =
+    let definition lambdaChar =
         let ws = skipMany (skipChar ' ')
-        identifier .>> ws .>> pstring ":=" .>> ws .>>. term
+        identifier .>> ws .>> pstring ":=" .>> ws .>>. term lambdaChar
 
-    let definitions =
-        sepBy definition (skipNewline >>. skipNewline) .>> eof
+    let definitions lambdaChar =
+        sepBy (definition lambdaChar) (skipNewline >>. skipNewline) .>> eof
