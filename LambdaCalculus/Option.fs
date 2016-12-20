@@ -10,7 +10,7 @@ module Option =
 
     // What about writing this in the naive way and evaling it?
     /// bindT : 'a option -> ('a -> 'b option) -> 'b option
-    let bindT = lams 2 (Var 1 $ (lams 2 (Var 1)) $ Var 0 )
+    let bindT = lams 2 (Var 1 $ noneT $ Var 0 )
 
     /// returnT : 'a -> 'a option
     let returnT = someT

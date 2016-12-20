@@ -1,5 +1,5 @@
-﻿lessThan := λλλ 2
+﻿lessThan := λ lt λ e λ gt . lt
 
-equal := λλλ 1
+equal := λ lt λ e λ gt . e
 
-greaterThan := λλλ 0
+greaterThan := λ lt λ e λ gt . gt

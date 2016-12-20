@@ -10,7 +10,7 @@ module BaseLibrary =
         let readLamResource resourceName =
             let assembly = Assembly.GetExecutingAssembly ()
             use stream = assembly.GetManifestResourceStream resourceName
-            let parsed = runParserOnStream (Parser.definitions 'λ') () resourceName stream System.Text.Encoding.UTF8
+            let parsed = runParserOnStream (ParserV.definitions 'λ') () resourceName stream System.Text.Encoding.UTF8
 
             match parsed with
             | Success (terms, _, _) -> terms
@@ -18,7 +18,7 @@ module BaseLibrary =
 
         let makeContextForModule (moduleName : string) =
             moduleName |> sprintf "%s.lam" |> readLamResource
-            |> List.map (fun (termName, term) -> sprintf "%s.%s" moduleName termName, term)
+            |> List.map (fun (termName, term) -> sprintf "%s.%s" moduleName termName, TermIV.deBruijn term)
 
         makeContextForModule moduleName
 

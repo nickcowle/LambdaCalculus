@@ -1,8 +1,8 @@
-﻿none := λλ 1
+﻿none := λ n λ s . n
 
-some := λλλ 0 2
+some := λ v λ n λ s . s v
 
-bind := λλ 1 (λλ 1) 0
+bind := λ o λ f . o Option.none f
 
 return := Option.some
 
@@ -10,6 +10,6 @@ apply := Combinators.bindToApply Option.bind Option.return
 
 map := Combinators.applyToMap Option.apply Option.return
 
-isNone := λ 0 Bool.true (λ Bool.false)
+isNone := λ o . o Bool.true (λ v . Bool.false)
 
-isSome := λ 0 Bool.false (λ Bool.true)
+isSome := λ o . o Bool.false (λ v . Bool.true)

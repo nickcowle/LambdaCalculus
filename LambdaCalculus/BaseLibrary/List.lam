@@ -1,39 +1,39 @@
-﻿empty := λλ 1
+﻿empty := λ e λ c . e
 
-cons := λλλλ 0 3 2
+cons := λ h λ t λ e λ c . c h t
 
-isEmpty := λλλ 2 1 (λλ 2)
+isEmpty := λ l λ t λ f . l t (λ h λ t . f)
 
-replicate := λλ 1 (List.cons 0) List.empty
+replicate := λ n λ v . n (List.cons v) List.empty
 
-repeat := Combinators.Y (λλ List.cons 0 (1 0))
+repeat := Combinators.Y (λ repeat λ v . List.cons v (repeat v))
 
-singleton := λ List.cons 0 List.empty
+singleton := λ v . List.cons v List.empty
 
-fold := Combinators.Y (λλλλ 0 1 (λλ 4 (5 4 3 0) 1))
+fold := Combinators.Y (λ fold λ f λ state λ xs . xs state (λ s λ xs . f (fold f state xs) s))
 
-length := List.fold (λλ Nat.succ 1) Nat.zero
+length := List.fold (λ n λ x . Nat.succ n) Nat.zero
 
-append := Combinators.Y (λλλ 1 0 (λλ List.cons 1 (4 0 2)))
+append := Combinators.Y (λ append λ xs λ ys . xs ys (λ x λ xs . List.cons x (append xs ys)))
 
-collect := λλ List.fold (λλ List.append (3 0) 1) List.empty 0
+collect := λ f λ xs . List.fold (λ ys λ x . List.append (f x) ys) List.empty xs
 
-bind := λλ List.collect 0 1
+bind := λ xs λ f . List.collect f xs
 
-return := λ List.cons 0 List.empty
+return := List.singleton
 
 apply := Combinators.bindToApply List.bind List.return
 
 map := Combinators.applyToMap List.apply List.return
 
-head := λ (0 Option.none (λλ Option.some 1))
+head := λ xs . xs Option.none (λ x λ xs . Option.some x)
 
 sum := List.fold Nat.add Nat.zero
 
 product := List.fold Nat.mult (Nat.succ Nat.zero)
 
-take := Combinators.Y (λλλ (Nat.isZero 1) List.empty (0 List.empty (λλ List.cons 1 (4 (Nat.pred 3) 0))))
+take := Combinators.Y (λ take λ n λ xs . (Nat.isZero n) List.empty (xs List.empty (λ x λ xs . List.cons x (take (Nat.pred n) xs))))
 
-skip := λλ 1 (λ 0 List.empty (λλ 0)) 0
+skip := λ n λ xs . n (λ xs . xs List.empty (λ x λ xs . xs)) xs
 
-nats := Combinators.Y (λλ List.cons 0 (1 (Nat.succ 0))) Nat.zero
+nats := Combinators.Y (λ natsFrom λ n . List.cons n (natsFrom (Nat.succ n))) Nat.zero

@@ -8,6 +8,9 @@ open System.Reflection
 [<TestFixture>]
 type TestParser () =
 
+    let assertAreEqual (expected : 'a) (actual : 'a) =
+        Assert.AreEqual(expected, actual)
+
     [<Test>]
     member __.``identifier parses letters and digits`` () =
 
@@ -25,7 +28,7 @@ type TestParser () =
             let result = run identifierParser identifier
             match result with
             | ParserResult.Success (parsed, _, _) ->
-                Assert.AreEqual(identifier, parsed)
+                assertAreEqual identifier parsed
             | _ -> Assert.Fail ()
 
         let shouldntParse =
@@ -51,8 +54,53 @@ type TestParser () =
 
         let variable = "0"
         let result = parse variable |> Option.get |> Eval.resolveIdentifiers Map.empty |> Result.force
-        Assert.AreEqual(Var 0, result)
+        assertAreEqual (Var 0) result
 
         let app = "3 1"
         let result = parse app |> Option.get |> Eval.resolveIdentifiers Map.empty |> Result.force
-        Assert.AreEqual(appVars [3 ; 1], result)
+        assertAreEqual (appVars [3 ; 1]) result
+
+    [<Test>]
+    member __.``test named variables`` () =
+
+        let parse s =
+            match run (ParserV.term 'λ') s with
+            | ParserResult.Success (t, _, _) -> Some t
+            | _ -> None
+
+        let compose = "λ f λ g λ x . g (f x)"
+
+        match parse compose with
+        | None -> Assert.Fail ()
+        | Some t ->
+            assertAreEqual Combinators.composeT (t |> TermIV.deBruijn |> Eval.resolveIdentifiers Map.empty |> Result.force)
+
+    [<Test>]
+    member __.``test parsing an identifier`` () =
+
+        let parse s =
+            match run (ParserV.term 'λ') s with
+            | ParserResult.Success (t, _, _) -> Some t
+            | _ -> None
+
+        let ident = "foo"
+
+        match parse ident with
+        | None -> Assert.Fail ()
+        | Some t ->
+            assertAreEqual (VarIV ident) t
+
+    [<Test>]
+    member __.``test parsing a qualified identifier`` () =
+
+        let parse s =
+            match run (ParserV.term 'λ') s with
+            | ParserResult.Success (t, _, _) -> Some t
+            | _ -> None
+
+        let ident = "foo.bar"
+
+        match parse ident with
+        | None -> Assert.Fail ()
+        | Some t ->
+            assertAreEqual (IdentIV ident) t

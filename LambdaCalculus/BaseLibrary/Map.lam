@@ -1,7 +1,7 @@
-﻿empty := λλ 1
+﻿empty := λ leaf λ branch . leaf
 
-node := λλλλλλ 0 5 4 3 2
+node := λ left λ k λ v λ right λ leaf λ branch . branch left k v right
 
-insert := Combinators.Y (λλλλλ 0 (Map.node Map.empty 2 1 Map.empty) (λλλλ 7 6 2 (Map.node (8 7 6 5 3) 2 1 0) (Map.node 3 2 5 0) (Map.node 3 2 1 (8 7 6 5 0))))
+insert := Combinators.Y (λ insert λ cmp λ k λ v λ m . m (Map.node Map.empty k v Map.empty) (λ l λ k1 λ v1 λ r . cmp k k1 (Map.node (insert cmp k v l) k1 v1 r) (Map.node l k1 v r) (Map.node l k1 v1 (insert cmp k v r))))
 
-find := Combinators.Y (λλλλ 0 Option.none (λλλλ 6 5 2 (7 6 5 3) (Option.some 1) (7 6 5 0)))
+find := Combinators.Y (λ find λ cmp λ k λ m . m Option.none (λ l λ k1 λ v1 λ r . cmp k k1 (find cmp k l) (Option.some v1) (find cmp k r)))

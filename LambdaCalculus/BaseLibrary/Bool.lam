@@ -1,11 +1,11 @@
-﻿true := λλ 1
+﻿true := λ t λ f . t
 
-false := λλ 0
+false := λ t λ f . f
 
-and := λλλλ (3 (2 1 0) 0)
+and := λ b1 λ b2 λ t λ f . b1 (b2 t f) f
 
-or := λλλλ (3 1 (2 1 0))
+or := λ b1 λ b2 λ t λ f . b1 t (b2 t f)
 
-not := λλλ (2 0 1)
+not := λ b λ t λ f . b f t
 
-if := λλλ (2 1 0)
+if := λ b λ t λ f . b t f
