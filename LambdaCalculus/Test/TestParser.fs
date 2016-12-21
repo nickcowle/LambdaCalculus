@@ -68,7 +68,7 @@ type TestParser () =
             | ParserResult.Success (t, _, _) -> Some t
             | _ -> None
 
-        let compose = "λ f λ g λ x . g (f x)"
+        let compose = "λ f g x . g (f x)"
 
         match parse compose with
         | None -> Assert.Fail ()

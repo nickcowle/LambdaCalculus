@@ -1,9 +1,9 @@
-﻿compose := λ f λ g λ x . g (f x)
+﻿compose := λ f g x . g (f x)
 
-compose2 := λ f λ g λ x λ y . g (f x y)
+compose2 := λ f g x y . g (f x y)
 
 Y := λ f . (λ x . f (x x)) (λ x . f (x x))
 
-bindToApply := λ bind λ return λ a λ f . bind f (λ x . bind a (Combinators.compose x return))
+bindToApply := λ bind return a f . bind f (λ x . bind a (Combinators.compose x return))
 
-applyToMap := λ apply λ return λ a λ f . apply a (return f)
+applyToMap := λ apply return a f . apply a (return f)

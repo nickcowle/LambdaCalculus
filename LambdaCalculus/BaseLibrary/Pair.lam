@@ -1,7 +1,7 @@
-﻿make := λ f λ s λ c . c f s
+﻿make := λ f s c . c f s
 
-first := λ p . p (λ f λ s . f)
+first := λ p . p (λ f s . f)
 
-second := λ p . p (λ f λ s . s)
+second := λ p . p (λ f s . s)
 
-flip := λ p . p (λ f λ s λ c . c s f)
+flip := λ p . p (λ f s c . c s f)

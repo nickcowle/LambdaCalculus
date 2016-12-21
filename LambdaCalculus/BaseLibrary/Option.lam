@@ -1,8 +1,8 @@
-﻿none := λ n λ s . n
+﻿none := λ n s . n
 
-some := λ v λ n λ s . s v
+some := λ v n s . s v
 
-bind := λ o λ f . o Option.none f
+bind := λ o f . o Option.none f
 
 return := Option.some
 

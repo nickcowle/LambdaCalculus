@@ -56,7 +56,7 @@ module ParserV =
             sepBy1 applicant Parser.ws1 |>> appsIV
 
         let lams =
-            many1 (skipChar lambdaChar >>. Parser.ws1 >>. Parser.identifier .>> Parser.ws1) .>> skipChar '.' .>> Parser.ws1 .>>. apps |>> ((<||) lamsIV)
+            skipChar lambdaChar >>. Parser.ws1 >>. many1 (Parser.identifier .>> Parser.ws1) .>> skipChar '.' .>> Parser.ws1 .>>. apps |>> ((<||) lamsIV)
 
         termRef := lams <|> apps
         term

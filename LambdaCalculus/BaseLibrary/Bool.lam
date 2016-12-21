@@ -1,11 +1,11 @@
-﻿true := λ t λ f . t
+﻿true := λ t f . t
 
-false := λ t λ f . f
+false := λ t f . f
 
-and := λ b1 λ b2 λ t λ f . b1 (b2 t f) f
+and := λ b1 b2 t f . b1 (b2 t f) f
 
-or := λ b1 λ b2 λ t λ f . b1 t (b2 t f)
+or := λ b1 b2 t f . b1 t (b2 t f)
 
-not := λ b λ t λ f . b f t
+not := λ b t f . b f t
 
-if := λ b λ t λ f . b t f
+if := λ b t f . b t f
