@@ -1,17 +1,17 @@
-﻿zero := λ s z . z
+﻿zero s z = z
 
-succ := λ n s z . s (n s z)
+succ n s z = s (n s z)
 
-add := λ x y s z . y s (x s z)
+add x y s z = y s (x s z)
 
-mult := λ x y s z . y (x s) z
+mult x y s z = y (x s) z
 
-isZero := λ n . n (λ b . Bool.false) Bool.true
+isZero n = n (λ b . Bool.false) Bool.true
 
-pred := λ n s z . Pair.second (n (λ p . Pair.make Bool.true (Pair.first p (s (Pair.second p)) (Pair.second p))) (Pair.make Bool.false z))
+pred n s z = Pair.second (n (λ p . Pair.make Bool.true (Pair.first p (s (Pair.second p)) (Pair.second p))) (Pair.make Bool.false z))
 
-subtract := λ x y . y Nat.pred x
+subtract x y = y Nat.pred x
 
-equals := λ x y . Pair.first (x Pair.second (y (Pair.make Bool.false) (Pair.make Bool.true (Combinators.Y (λ fs . Pair.make Bool.false fs)))))
+equals x y = Pair.first (x Pair.second (y (Pair.make Bool.false) (Pair.make Bool.true (Combinators.Y (λ fs . Pair.make Bool.false fs)))))
 
-compare := λ x y . Pair.first (x Pair.second (y (Pair.make Ordering.lessThan) (Pair.make Ordering.equal (Combinators.Y (λ gts . Pair.make Ordering.greaterThan gts)))))
+compare x y = Pair.first (x Pair.second (y (Pair.make Ordering.lessThan) (Pair.make Ordering.equal (Combinators.Y (λ gts . Pair.make Ordering.greaterThan gts)))))

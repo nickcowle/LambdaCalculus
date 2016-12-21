@@ -1,39 +1,39 @@
-﻿empty := λ e c . e
+﻿empty e c = e
 
-cons := λ h t e c . c h t
+cons h t e c = c h t
 
-isEmpty := λ l t f . l t (λ h t . f)
+isEmpty l t f = l t (λ h t . f)
 
-replicate := λ n v . n (List.cons v) List.empty
+replicate n v = n (List.cons v) List.empty
 
-repeat := Combinators.Y (λ repeat v . List.cons v (repeat v))
+repeat = Combinators.Y (λ repeat v . List.cons v (repeat v))
 
-singleton := λ v . List.cons v List.empty
+singleton v = List.cons v List.empty
 
-fold := Combinators.Y (λ fold f state xs . xs state (λ s xs . f (fold f state xs) s))
+fold = Combinators.Y (λ fold f state xs . xs state (λ s xs . f (fold f state xs) s))
 
-length := List.fold (λ n x . Nat.succ n) Nat.zero
+length = List.fold (λ n x . Nat.succ n) Nat.zero
 
-append := Combinators.Y (λ append xs ys . xs ys (λ x xs . List.cons x (append xs ys)))
+append = Combinators.Y (λ append xs ys . xs ys (λ x xs . List.cons x (append xs ys)))
 
-collect := λ f xs . List.fold (λ ys x . List.append (f x) ys) List.empty xs
+collect f xs = List.fold (λ ys x . List.append (f x) ys) List.empty xs
 
-bind := λ xs f . List.collect f xs
+bind xs f = List.collect f xs
 
-return := List.singleton
+return = List.singleton
 
-apply := Combinators.bindToApply List.bind List.return
+apply = Combinators.bindToApply List.bind List.return
 
-map := Combinators.applyToMap List.apply List.return
+map = Combinators.applyToMap List.apply List.return
 
-head := λ xs . xs Option.none (λ x xs . Option.some x)
+head xs = xs Option.none (λ x xs . Option.some x)
 
-sum := List.fold Nat.add Nat.zero
+sum = List.fold Nat.add Nat.zero
 
-product := List.fold Nat.mult (Nat.succ Nat.zero)
+product = List.fold Nat.mult (Nat.succ Nat.zero)
 
-take := Combinators.Y (λ take n xs . (Nat.isZero n) List.empty (xs List.empty (λ x xs . List.cons x (take (Nat.pred n) xs))))
+take = Combinators.Y (λ take n xs . (Nat.isZero n) List.empty (xs List.empty (λ x xs . List.cons x (take (Nat.pred n) xs))))
 
-skip := λ n xs . n (λ xs . xs List.empty (λ x xs . xs)) xs
+skip n xs = n (λ xs . xs List.empty (λ x xs . xs)) xs
 
-nats := Combinators.Y (λ natsFrom n . List.cons n (natsFrom (Nat.succ n))) Nat.zero
+nats = Combinators.Y (λ natsFrom n . List.cons n (natsFrom (Nat.succ n))) Nat.zero

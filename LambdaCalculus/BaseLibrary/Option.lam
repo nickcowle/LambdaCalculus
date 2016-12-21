@@ -1,15 +1,15 @@
-﻿none := λ n s . n
+﻿none n s = n
 
-some := λ v n s . s v
+some v n s = s v
 
-bind := λ o f . o Option.none f
+bind o f = o Option.none f
 
-return := Option.some
+return = Option.some
 
-apply := Combinators.bindToApply Option.bind Option.return
+apply = Combinators.bindToApply Option.bind Option.return
 
-map := Combinators.applyToMap Option.apply Option.return
+map = Combinators.applyToMap Option.apply Option.return
 
-isNone := λ o . o Bool.true (λ v . Bool.false)
+isNone o = o Bool.true (λ v . Bool.false)
 
-isSome := λ o . o Bool.false (λ v . Bool.true)
+isSome o = o Bool.false (λ v . Bool.true)

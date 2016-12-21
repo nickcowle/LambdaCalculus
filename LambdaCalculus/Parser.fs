@@ -62,8 +62,8 @@ module ParserV =
         term
 
     let definition lambdaChar =
-        let ws = skipMany (skipChar ' ')
-        Parser.identifier .>> ws .>> pstring ":=" .>> ws .>>. term lambdaChar
+        Parser.identifier .>> Parser.ws1 .>>. many (Parser.identifier .>> Parser.ws1) .>> skipChar '=' .>> Parser.ws1 .>>. term lambdaChar
+        |>> (fun ((name, ps), t) -> name, lamsIV ps t)
 
     let definitions lambdaChar =
         sepBy (definition lambdaChar) (skipNewline >>. skipNewline) .>> eof
