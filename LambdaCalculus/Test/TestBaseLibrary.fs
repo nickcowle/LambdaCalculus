@@ -102,7 +102,11 @@ type TestBaseLibrary () =
             ]
         ]
 
-    let context = filesToTest |> Seq.collect (fst >> BaseLibrary.loadModule) |> Map.ofSeq
+    let context =
+        filesToTest
+        |> Seq.collect (fst >> BaseLibrary.loadModule)
+        |> Seq.map (fun (name, t) -> name, TermI.removeSelfReference name t)
+        |> Map.ofSeq
 
     [<Test>]
     member __.``test correctness of base library definition`` () =
@@ -116,7 +120,9 @@ type TestBaseLibrary () =
                     | Some t -> t
                     | None -> failwithf "Could not find %s in context" fullName
                 let actual = term |> Eval.resolveIdentifiers context |> Result.force
-                let errorMessage = sprintf "Definitions of %s do not match!" fullName
+                let errorMessage =
+                    let p = PrettyPrinter.minimal |> PrettyPrinter.makePrinter
+                    sprintf "Definitions of %s do not match! Expected:\n%s\nbut got:\n%s" fullName (p expected) (p actual)
                 Assert.AreEqual(expected, actual, errorMessage)
 
             expectedTerms |> List.iter testTerm

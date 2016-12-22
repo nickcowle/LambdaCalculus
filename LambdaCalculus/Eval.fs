@@ -72,3 +72,24 @@ module Eval =
             match context |> Map.tryFind s with
             | Some t -> resolveIdentifiers context t
             | None -> Failure [ s ]
+
+    let rec resolveIdentifiersLazy (context : Map<string, TermI>) =
+        function
+        | VarI i -> lazy LVar i |> Success
+        | AppI (t1, t2) ->
+            let r1 = resolveIdentifiersLazy context t1
+            let r2 = resolveIdentifiersLazy context t2
+            match r1, r2 with
+            | Success t1,   Success t2   -> lazy LApp (t1, t2) |> Success
+            | Failure ids,  Success _    -> Failure ids
+            | Success _,    Failure ids  -> Failure ids
+            | Failure ids1, Failure ids2 -> Failure (ids1 @ ids2)
+        | LamI t ->
+            let r = resolveIdentifiersLazy context t
+            match r with
+            | Success t   -> lazy LLam t |> Success
+            | Failure ids -> Failure ids
+        | IdentI s ->
+            match context |> Map.tryFind s with
+            | Some t -> resolveIdentifiersLazy context t
+            | None -> Failure [ s ]
